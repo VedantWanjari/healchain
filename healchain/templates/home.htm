@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+
+  		<meta charset="UTF-8" />
+
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  		<title>
+			HealChain
+		</title>
+		
+<link rel="icon" type="image/png" href="/static/img/favicon.png" />  
+ 		<style>
+
+		body {
+      			margin: 0;
+      			font-family: 'Segoe UI', sans-serif;
+      			background-color: #000000;
+      			color: #FFFFFF;
+    			}
+
+    		header {
+      			text-align: center;
+      			padding: 2rem 1rem;
+    			}
+
+    		.logo {
+      			max-width: 120px;
+      			margin-bottom: 1rem;
+    			}
+
+    		h1 {
+      			font-size: 2rem;
+      			margin: 0;
+      			color: #FFFFFF;
+    			}
+
+   	 	nav {
+      			display: flex;
+      			justify-content: center;
+      			gap: 2rem;
+      			margin-top: 1.5rem;
+      			flex-wrap: wrap;
+    			}
+
+    		nav a {
+      			color: #009688;
+      			text-decoration: none;
+      			font-weight: bold;
+    			}
+
+    		.hero {
+      			text-align: center;
+      			padding: 3rem 1rem;
+    			}
+
+    		.hero h2 {
+      			font-size: 1.8rem;
+      			color: #009688;
+    			}
+
+    		.hero p {
+      			max-width: 600px;
+      			margin: 1rem auto;
+      			font-size: 1rem;
+      			line-height: 1.6;
+    			}
+
+    		footer {
+      			text-align: center;
+      			padding: 2rem 1rem;
+      			font-size: 0.9rem;
+      			color: #FFFFFF;
+      			border-top: 1px solid #009688;
+    			}
+
+    		@media (max-width: 600px) {
+      			nav {
+        			flex-direction: column;
+        			gap: 1rem;
+      				}
+
+      			.hero h2 {
+      		  		font-size: 1.5rem;
+      				}
+
+      			.hero p {
+        			font-size: 0.95rem;
+      				}
+
+
+    			}
+  	</style>
+
+	</head>
+
+	<body>
+  		<header>
+      			<img src="/static/img/logo.png" alt="HealChain Logo" class="logo" />
+
+    			<h1>
+			HealChain
+			</h1>
+
+    			<nav>
+  <a href="{{ url_for('home') }}">Home</a>
+  <a href="{{ url_for('about') }}">About</a>
+  <a href="{{ url_for('doctors') }}">Doctors</a>
+  <a href="{{ url_for('monitoring') }}">Monitoring</a>
+  <a href="{{ url_for('contact') }}">Contact</a>
+  <a href="{{ url_for('login') }}">Log in</a>
+</nav>
+
+ 
+ 		</header>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div style="text-align:center;color:#00e5ff;margin-top:1rem;">
+      {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
+  		<section class="hero">
+    		
+			<h2>
+				Secure Health Monitoring & Doctor Review
+			</h2>
+
+    			<p>
+      				HealChain is your trusted platform for uploading patient data and enabling secure doctor reviews. Built with privacy, precision, and innovation at its core.
+    			</p>
+
+  		</section>
+
+  		<footer>
+    			&copy; 2025 HealChain. All rights reserved.
+  		</footer>
+
+	</body>
+
+</html>

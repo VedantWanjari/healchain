@@ -1,0 +1,132 @@
+[
+  {
+    "date": "2025-10-27",
+    "patient_id": "sdzdsffasas",
+    "blood_sugar": "122",
+    "weight_kg": "223",
+    "blood_pressure": "120",
+    "time": "",
+    "notes": ""
+  },
+  {
+    "date": "2025-12-04",
+    "patient_id": "sdzdsffasas",
+    "blood_sugar": "21",
+    "weight_kg": "213",
+    "blood_pressure": "130",
+    "time": "",
+    "notes": ""
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-05",
+    "time": "14:34:15",
+    "notes": "",
+    "werght": "65",
+    "photo": "C:\\Users\\vedan\\Desktop\\healchain\\data\\uploads\\patient_files\\DOCAAD20251102194520_ASDFSGS_20251103T115819\\photo_20251105143415_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-05",
+    "time": "17:07:47",
+    "notes": "",
+    "werght": "65"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-05",
+    "time": "17:50:04",
+    "notes": "",
+    "werght": "",
+    "photo": "/data/uploads/patient_files/DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251105175004_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "06:49:41",
+    "notes": "",
+    "werght": "",
+    "photo": "/data/uploads/patient_files/DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106064941_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:01:20",
+    "notes": "",
+    "werght": "",
+    "photo": "DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106070120_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:01:20",
+    "notes": "",
+    "werght": "",
+    "photo": "DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106070120_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:10:28",
+    "notes": "",
+    "werght": "1234567",
+    "photo": "DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106071028_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:12:27",
+    "notes": "adfgddsz",
+    "werght": "s",
+    "photo": "DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106071227_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:12:27",
+    "notes": "adfgddsz",
+    "werght": "s",
+    "photo": "DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106071227_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:14:09",
+    "notes": "",
+    "werght": "65",
+    "photo": "DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106071409_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:14:09",
+    "notes": "",
+    "werght": "65",
+    "photo": "DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106071409_22060-angioplasty-illustration_3.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-06",
+    "time": "07:15:42",
+    "notes": "",
+    "werght": "",
+    "photo": "/data/uploads/patient_files/DOCAAD20251102194520_ASDFSGS_20251103T115819/photo_20251106071542_22060-angioplasty-illustration.jpg"
+  },
+  {
+    "patient_id": "DOCAAD20251102194520_ASDFSGS_20251103T115819",
+    "date": "2025-11-07",
+    "time": "17:03:56",
+    "notes": "",
+    "werght": "",
+    "age": "123",
+    "field_4": ""
+  },
+  {
+    "patient_id": "DOCASD20251221212514_AP_20251221T212610",
+    "date": "2025-12-21",
+    "time": "15:59:19",
+    "notes": "",
+    "blood_report": "/data/uploads/patient_files/DOCASD20251221212514_AP_20251221T212610/blood_report_20251221155919_Tutorial_EDIT.pdf",
+    "field_2": ""
+  }
+]

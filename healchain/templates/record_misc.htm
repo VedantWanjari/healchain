@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Record Miscellaneous Data</title>
+<link rel="icon" type="image/png" href="/static/img/favicon.png">
+  <style>
+    body{background:#000;color:#fff;font-family:Segoe UI;padding:2rem}
+    .card{background:#111;padding:1rem;border-radius:8px;max-width:700px;margin:0 auto}
+    label{display:block;margin-top:0.5rem}
+    input,textarea{width:100%;padding:0.5rem;border-radius:6px;border:1px solid #333;background:#fff;color:#000}
+    button{margin-top:0.5rem;padding:0.5rem 0.75rem;border-radius:6px;background:#009688;border:none;color:#fff}
+  </style>
+</head>
+<body>
+  <h1 style="color:#009688">Record Miscellaneous Data</h1>
+  <div class="card">
+    <form method="POST" enctype="multipart/form-data">
+      <label>Date</label>
+      <input type="date" name="date" />
+      <label>Time</label>
+      <input type="time" name="time" />
+      <label>Notes</label>
+      <textarea name="notes" rows="4"></textarea>
+      <label>Upload file (any format)</label>
+      <input type="file" name="upload" />
+      <div style="margin-top:0.5rem">
+        <button type="submit">Submit</button>
+        <a style="margin-left:0.5rem;color:#ccc" href="{{ url_for('patient_dashboard') }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

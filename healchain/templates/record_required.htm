@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Record Required Data</title>
+<link rel="icon" type="image/png" href="/static/img/favicon.png">
+  <style>
+    body{background:#000;color:#fff;font-family:Segoe UI;padding:2rem}
+    .card{background:#111;padding:1rem;border-radius:8px;max-width:900px;margin:0 auto}
+    label{display:block;margin-top:0.5rem}
+    input,textarea,select{width:100%;padding:0.5rem;border-radius:6px;border:1px solid #333;background:#fff;color:#000}
+    button{margin-top:0.5rem;padding:0.5rem 0.75rem;border-radius:6px;background:#009688;border:none;color:#fff}
+  </style>
+</head>
+<body>
+  <h1 style="color:#009688">Record required data</h1>
+  <div class="card">
+    {% if requirements|length == 0 %}
+      <div style="color:#ccc">No required fields specified by your doctor. You can still record miscellaneous data.</div>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+      <label>Date</label>
+      <input type="date" name="date" />
+      <label>Time</label>
+      <input type="time" name="time" />
+      <label>Notes (optional)</label>
+      <textarea name="notes" rows="3"></textarea>
+      <hr style="border-color:#222" />
+      {% for r in requirements %}
+        <label>{{ r.label }} {% if r.unit %} ({{ r.unit }}) {% endif %}</label>
+        {% if r.input_type == 'upload' %}
+          <input type="file" name="{{ r.key }}" accept="{{ r.upload_formats and ('.' + r.upload_formats.replace(';','.,')) or '' }}" />
+          <div style="color:#999;font-size:0.9rem">Allowed: {{ r.upload_formats or 'any' }}</div>
+        {% elif r.input_type == 'number' %}
+          <input type="number" step="any" name="{{ r.key }}" />
+        {% else %}
+          <input type="text" name="{{ r.key }}" />
+        {% endif %}
+        {% if r.warn_min or r.warn_max %}
+          <div style="color:#f39c12;font-size:0.95rem">Warning range: {{ r.warn_min or '—' }} to {{ r.warn_max or '—' }} (doctor set)</div>
+        {% endif %}
+      {% endfor %}
+      <div style="margin-top:0.5rem">
+        <button type="submit">Submit</button>
+        <a style="margin-left:0.5rem;color:#ccc" href="{{ url_for('patient_dashboard') }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

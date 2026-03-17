@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Patient Dashboard</title>
+  <link rel="icon" type="image/png" href="/static/img/favicon.png">
+  <style>
+    body { background:#000;color:#fff;font-family:Segoe UI, sans-serif;padding:2rem; }
+    h1{color:#009688;text-align:center;margin-bottom:1rem}
+    .tabs{display:flex;gap:0.5rem;justify-content:center;margin-bottom:1rem}
+    .tab{background:#111;padding:0.6rem 0.9rem;border-radius:6px;cursor:pointer}
+    .card{background:#111;padding:1rem;border-radius:8px;max-width:900px;margin:0 auto;color:#fff}
+    .center{max-width:700px;margin:0 auto}
+    a.button{display:inline-block;padding:0.5rem 0.75rem;border-radius:6px;background:#009688;color:#fff;text-decoration:none}
+  </style>
+  <script>
+    function showTab(id){
+      document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+      document.getElementById(id).style.display='block';
+    }
+    window.onload = function(){ showTab('record_required'); }
+  </script>
+</head>
+<body>
+  <h1>Welcome, {{ patient.patient_name }}</h1>
+  <div class="tabs">
+    <div class="tab" onclick="showTab('record_required')">Record required data</div>
+    <div class="tab" onclick="showTab('record_misc')">Record miscellaneous data</div>
+    <div class="tab" onclick="showTab('contact')">Contact doctor</div>
+    <div class="tab" onclick="showTab('profile')">Profile</div>
+    <div class="tab" onclick="showTab('history')">My history</div>
+  </div>
+
+  <div class="card center">
+    <div id="record_required" class="panel">
+      <h3 style="color:#00e5ff">Record required data</h3>
+      <p class="muted">Fields below are set by your doctor. None are compulsory.</p>
+      <div><a class="button" href="{{ url_for('patient_record_required') }}">Open form</a></div>
+    </div>
+
+    <div id="record_misc" class="panel" style="display:none">
+      <h3 style="color:#00e5ff">Record miscellaneous data</h3>
+      <p class="muted">Record any other observations or upload files.</p>
+      <div><a class="button" href="{{ url_for('patient_record_misc') }}">Open form</a></div>
+    </div>
+
+    <div id="contact" class="panel" style="display:none">
+      <h3 style="color:#00e5ff">Contact doctor</h3>
+      <form action="{{ url_for('patient_contact_doctor') }}" method="POST">
+        <label>Message (max 200 words)</label>
+        <textarea id="message" name="message" rows="5" style="width:100%;padding:0.6rem;border-radius:6px;border:1px solid #333"></textarea>
+        <div style="text-align:right;color:#999;margin-top:0.5rem"><span id="count">0</span>/200</div>
+        <div style="margin-top:0.5rem"><button type="submit" style="padding:0.6rem 0.9rem;border-radius:6px;background:#009688;border:none;color:#fff">Send</button></div>
+      </form>
+      <script>
+        var ta=document.getElementById('message'); var counter=document.getElementById('count');
+        ta.addEventListener('input', function(){
+          var words = ta.value.trim().split(/\s+/).filter(Boolean).length;
+          counter.textContent = words;
+          if(words>200){ counter.style.color='red'; } else { counter.style.color='#999'; }
+        });
+      </script>
+    </div>
+
+    <div id="profile" class="panel" style="display:none">
+      <h3 style="color:#00e5ff">Profile</h3>
+      <table style="width:100%;border-collapse:collapse;color:#fff">
+        <tr><td style="padding:0.5rem;border-bottom:1px solid #222"><strong>Patient ID</strong></td><td style="padding:0.5rem;border-bottom:1px solid #222">{{ patient.patient_id }}</td></tr>
+        <tr><td style="padding:0.5rem;border-bottom:1px solid #222"><strong>Name</strong></td><td style="padding:0.5rem;border-bottom:1px solid #222">{{ patient.patient_name }}</td></tr>
+        <tr><td style="padding:0.5rem;border-bottom:1px solid #222"><strong>Age</strong></td><td style="padding:0.5rem;border-bottom:1px solid #222">{{ patient.age }}</td></tr>
+        <tr><td style="padding:0.5rem;border-bottom:1px solid #222"><strong>Gender</strong></td><td style="padding:0.5rem;border-bottom:1px solid #222">{{ patient.gender }}</td></tr>
+        <tr><td style="padding:0.5rem"><strong>Doctor</strong></td><td style="padding:0.5rem">{{ patient.doctor_name }}</td></tr>
+      </table>
+    </div>
+
+    <div id="history" class="panel" style="display:none">
+      <h3 style="color:#00e5ff">My history</h3>
+      <div><a class="button" href="{{ url_for('patient_history') }}">View history</a></div>
+    </div>
+  </div>
+</body>
+</html>
