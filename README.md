@@ -388,6 +388,8 @@ For any real healthcare needs, use only certified, regulated, and compliant heal
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+Unless otherwise stated, all code in this repository is licensed under the MIT License.
+
 **Important:** Users deploying this code are fully responsible for compliance with all applicable laws and regulations, including HIPAA, FDA requirements, and data protection laws.
 
 ---
