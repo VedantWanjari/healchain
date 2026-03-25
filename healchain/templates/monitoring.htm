@@ -1,0 +1,20 @@
+{% extends "base.htm" %}
+
+{% block title %}Monitoring – HealChain{% endblock %}
+
+{% block head_extra %}
+<style>
+  .monitoring-section { padding:4rem 1rem; text-align:center; }
+  .monitoring-section h2 { font-size:1.8rem; color:#009688; margin-bottom:1rem; }
+  .login-button { background:#009688; color:#fff; padding:0.8rem 1.6rem; border-radius:4px; text-decoration:none; font-weight:bold; display:inline-block; }
+  .login-button:hover { background:#00796B; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="monitoring-section">
+  <h2>Access Monitoring Dashboard</h2>
+  <p>To view patient monitoring data, please log in to your account.</p>
+  <a href="{{ url_for('login') }}" class="login-button">Log In to Monitor</a>
+</section>
+{% endblock %}

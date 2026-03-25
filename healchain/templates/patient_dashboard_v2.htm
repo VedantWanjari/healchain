@@ -1,0 +1,123 @@
+{% extends "base.htm" %}
+
+{% block title %}Patient Dashboard – HealChain{% endblock %}
+
+{% block head_extra %}
+<style>
+  :root { --accent:#009688; --bg:#000; --muted:#bdbdbd; }
+  .dash { max-width:1100px; margin:2rem auto; padding:0 1rem; color:#fff; }
+  .top { display:flex; gap:1rem; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  .summary { display:flex; gap:0.75rem; flex-wrap:wrap; }
+  .card { background:#fff; color:#000; padding:0.8rem 1rem; border-radius:8px; min-width:140px; text-align:center; }
+  .main { display:grid; grid-template-columns: 1fr 340px; gap:1rem; margin-top:1rem; }
+  .panel { background:#111; padding:1rem; border-radius:8px; }
+  .controls { display:flex; gap:0.5rem; align-items:center; }
+  .btn { padding:0.45rem 0.6rem; border-radius:6px; background:#fff; color:#000; text-decoration:none; border:1px solid rgba(0,0,0,0.08); }
+  .primary { background:var(--accent); color:#fff; border:1px solid var(--accent); }
+  table { width:100%; border-collapse:collapse; margin-top:0.5rem; }
+  th, td { padding:0.5rem; border-bottom:1px solid #222; text-align:left; color:#fff; }
+  th { color:#bdbdbd; font-weight:600; }
+  .muted { color:var(--muted); font-size:0.95rem; }
+  @media (max-width:900px) { .main { grid-template-columns: 1fr; } .card { min-width:120px; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dash" role="main" aria-labelledby="patient-dash-heading">
+  <div class="top">
+    <div>
+      <h1 id="patient-dash-heading" style="margin:0;color:#00e5ff">Patient Dashboard</h1>
+      {% if patient %}
+        <div class="muted">Logged in as <strong>{{ patient.patient_name }}</strong> • ID <strong>{{ patient.patient_id }}</strong></div>
+      {% endif %}
+    </div>
+
+    <div class="controls">
+      <a class="btn" href="{{ url_for('patient_history', patient_id=patient.patient_id) }}">History</a>
+      <a class="btn" href="{{ url_for('patient_profile', patient_id=patient.patient_id) }}">Profile</a>
+      <a class="btn primary" href="{{ url_for('patient_daily') }}">Add Record</a>
+    </div>
+  </div>
+
+  <div class="summary" aria-hidden="false" style="margin-top:1rem;">
+    <div class="card">
+      <div class="muted">Records</div>
+      <div style="font-weight:700;font-size:1.25rem;">{{ rows|length }}</div>
+    </div>
+    <div class="card">
+      <div class="muted">Avg Blood Sugar</div>
+      <div style="font-weight:700;font-size:1.25rem;">{{ avg_blood_sugar or '—' }}</div>
+    </div>
+    <div class="card">
+      <div class="muted">Avg Weight</div>
+      <div style="font-weight:700;font-size:1.25rem;">{{ avg_weight or '—' }}</div>
+    </div>
+    <div class="card">
+      <div class="muted">Latest BP</div>
+      <div style="font-weight:700;font-size:1.25rem;">{{ latest_bp or '—' }}</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <section class="panel" aria-labelledby="recent-records">
+      <h2 id="recent-records" style="margin-top:0;color:#009688">Recent Records</h2>
+
+      {% if rows and rows|length > 0 %}
+        <table role="table" aria-label="Recent monitoring records">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              {% for col in requirements %}
+                <th>{{ col.label or col.key | replace('_',' ') | title }}</th>
+              {% endfor %}
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in rows|slice(0,10) %}
+              <tr>
+                <td>{{ r.date }}</td>
+                <td>{{ r.time or '—' }}</td>
+                {% for col in requirements %}
+                  {% set val = r[col.key] %}
+                  {% if col.input_type == 'upload' and val %}
+                    <td><a href="{{ val }}" target="_blank" style="color:#00e5ff">File</a></td>
+                  {% else %}
+                    <td>{{ val or '—' }}</td>
+                  {% endif %}
+                {% endfor %}
+                <td>{{ r.notes or '—' }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% if rows|length > 10 %}
+          <div style="margin-top:0.5rem;"><a class="btn" href="{{ url_for('patient_history', patient_id=patient.patient_id) }}">View all records</a></div>
+        {% endif %}
+      {% else %}
+        <div class="muted">No records yet. Use Add Record to submit daily data.</div>
+      {% endif %}
+    </section>
+
+    <aside class="panel" aria-labelledby="quick-actions">
+      <h2 id="quick-actions" style="margin-top:0;color:#009688">Quick Actions</h2>
+
+      <form action="{{ url_for('patient_daily_post') }}" method="POST" style="margin-bottom:1rem;">
+        <input type="hidden" name="patient_id" value="{{ patient.patient_id if patient else '' }}" />
+        <label class="muted" style="display:block;margin-bottom:0.25rem;">Quick add today</label>
+        <input name="date" type="date" required style="width:100%;padding:0.45rem;border-radius:6px;border:none;margin-bottom:0.5rem;" />
+        <input name="sugar" type="number" placeholder="Sugar mg/dL" style="width:100%;padding:0.45rem;border-radius:6px;border:none;margin-bottom:0.5rem;" />
+        <input name="weight" type="number" placeholder="Weight kg" style="width:100%;padding:0.45rem;border-radius:6px;border:none;margin-bottom:0.5rem;" />
+        <button class="btn primary" type="submit" style="width:100%;">Submit</button>
+      </form>
+
+      <div style="margin-top:1rem;">
+        <h3 style="margin:0 0 0.5rem 0;color:#00e5ff">Messages</h3>
+        {% if messages and messages|length > 0 %}
+          <ul style="padding-left:1rem;margin:0;">
+            {% for m in messages|slice(0,5) %}
+              <li style="margin-bottom:0.5rem;"><strong>{{ m.timestamp }}</strong><br/>{{ m.message }}</li>
+            {% endfor %}
+          </ul>
+          <div style="margin-top:0.5rem;"><a class="btn" href="{{ url_for('patient_messages', patient_id=patient.patient_id) }}">

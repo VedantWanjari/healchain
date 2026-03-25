@@ -1,0 +1,28 @@
+{% extends "base.htm" %}
+
+{% block title %}About Us – HealChain{% endblock %}
+
+{% block head_extra %}
+<style>
+  .about-section { padding: 3rem 1rem; text-align: center; }
+  .about-section h2 { font-size: 1.8rem; color: #009688; margin-bottom: 1rem; }
+  .about-section p { max-width: 700px; margin: 0 auto; font-size: 1rem; line-height: 1.6; }
+  @media (max-width: 600px) {
+    .about-section h2 { font-size: 1.5rem; }
+    .about-section p { font-size: 0.95rem; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="about-section">
+  <h2>About Us</h2>
+  <p>
+    HealChain is a healthcare technology initiative focused on secure and streamlined patient data management. Our mission is to empower doctors and patients with tools that simplify data sharing, enhance review processes, and ensure privacy at every step.
+
+    Founded with a vision to bridge the gap between medical care and digital innovation, HealChain integrates intuitive design with robust infrastructure. Whether you're uploading patient records or reviewing treatment history, our platform ensures clarity, control, and confidence.
+
+    We believe healthcare should be secure, accessible, and efficient—and we’re building HealChain to make that a reality.
+  </p>
+</section>
+{% endblock %}

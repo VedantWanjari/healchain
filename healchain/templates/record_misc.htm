@@ -1,0 +1,37 @@
+{% extends "base.htm" %}
+
+{% block title %}Record Miscellaneous Data – HealChain{% endblock %}
+
+{% block head_extra %}
+<style>
+  .card-wrap { max-width:700px; margin:2rem auto; padding:0 1rem; }
+  h1 { color:#009688; text-align:center; margin-bottom:0.75rem; }
+  .card { background:#111; padding:1rem; border-radius:8px; color:#fff; }
+  label { display:block; margin-top:0.5rem; color:#fff; }
+  input, textarea { width:100%; padding:0.5rem; border-radius:6px; border:1px solid #333; background:#fff; color:#000; }
+  button { margin-top:0.5rem; padding:0.5rem 0.75rem; border-radius:6px; background:#009688; border:none; color:#fff; cursor:pointer; }
+  a.cancel { margin-left:0.5rem; color:#ccc; text-decoration:none; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card-wrap">
+  <h1>Record Miscellaneous Data</h1>
+  <div class="card">
+    <form method="POST" enctype="multipart/form-data">
+      <label>Date</label>
+      <input type="date" name="date" />
+      <label>Time</label>
+      <input type="time" name="time" />
+      <label>Notes</label>
+      <textarea name="notes" rows="4"></textarea>
+      <label>Upload file (any format)</label>
+      <input type="file" name="upload" />
+      <div style="margin-top:0.5rem">
+        <button type="submit">Submit</button>
+        <a class="cancel" href="{{ url_for('patient_dashboard') }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

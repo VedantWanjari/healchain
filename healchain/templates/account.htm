@@ -1,0 +1,21 @@
+{% extends "base.htm" %}
+
+{% block title %}Create Account – HealChain{% endblock %}
+
+{% block head_extra %}
+<style>
+  body .account-page { text-align:center; padding:3rem 1rem; }
+  .role-btn { display:inline-block; background:#009688; color:#fff; padding:1rem 2rem; margin:1rem; border-radius:6px; border:none; cursor:pointer; }
+  .role-btn:hover { background:#00796B; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="account-page">
+  <h1>Create Your HealChain Account</h1>
+  <p>Choose your role to begin registration:</p>
+
+  <a href="{{ url_for('doctor_register') }}"><button class="role-btn">I am a Doctor</button></a>
+  <a href="{{ url_for('patient_register') }}"><button class="role-btn">I am a Patient</button></a>
+</div>
+{% endblock %}

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}HealChain{% endblock %}</title>
+  <link rel="icon" type="image/png" href="/static/img/favicon.png" />
+  <style>
+    /* Design tokens */
+    :root{
+      --bg:#f6f9fb;
+      --card:#ffffff;
+      --text:#0f1720;
+      --muted:#6b7280;
+      --accent:#0ea5a4;
+      --accent-dark:#00796b;
+      --radius:12px;
+      --max-width:1100px;
+      --shadow: 0 6px 18px rgba(15,23,32,0.08);
+      --focus: 0 0 0 3px rgba(14,165,164,0.12);
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+    }
+
+    html,body{height:100%;}
+    body {
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+
+    /* Page container */
+    .site {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(180deg, rgba(14,165,164,0.06), transparent);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow);
+    }
+    .header-inner {
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:0.75rem;
+      text-decoration:none;
+      color:var(--text);
+    }
+    .logo {
+      width:56px;
+      height:56px;
+      object-fit:contain;
+      border-radius:8px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+      padding:6px;
+      box-shadow: 0 4px 10px rgba(14,165,164,0.12);
+    }
+    .brand h1 {
+      font-size:1.25rem;
+      margin:0;
+      letter-spacing:0.2px;
+    }
+    nav {
+      display:flex;
+      gap:1rem;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    nav a {
+      color:var(--muted);
+      text-decoration:none;
+      padding:0.5rem 0.6rem;
+      border-radius:8px;
+      font-weight:600;
+      transition: all 150ms ease;
+    }
+    nav a:hover, nav a:focus {
+      color:var(--accent-dark);
+      background:transparent;
+      outline:none;
+      box-shadow:var(--focus);
+    }
+    .cta {
+      background:var(--accent);
+      color:#fff;
+      padding:0.5rem 0.9rem;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow: 0 6px 14px rgba(14,165,164,0.12);
+    }
+    .cta:hover, .cta:focus { background:var(--accent-dark); box-shadow:var(--focus); }
+
+    /* Hero (optional) */
+    .hero {
+      display:flex;
+      gap:2rem;
+      align-items:center;
+      justify-content:space-between;
+      padding:2rem;
+      margin:1rem 0;
+      background: linear-gradient(90deg, rgba(14,165,164,0.06), rgba(14,165,164,0.02));
+      border-radius:12px;
+    }
+    .hero .lead { max-width:60%; }
+    .hero h2 { margin:0 0 0.5rem 0; font-size:1.6rem; color:var(--text); }
+    .hero p { margin:0; color:var(--muted); }
+
+    /* Main content */
+    main { padding: 0.5rem 0 3rem 0; }
+    .container { max-width:var(--max-width); margin:0 auto; padding:0 1rem; }
+
+    /* Cards */
+    .card {
+      background:var(--card);
+      border-radius:12px;
+      padding:1rem;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(15,23,32,0.03);
+    }
+
+    /* Grid utilities */
+    .grid { display:grid; gap:1rem; }
+    .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+    /* Footer */
+    footer {
+      margin-top:2rem;
+      padding:1.25rem;
+      color:var(--muted);
+      font-size:0.95rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      flex-wrap:wrap;
+    }
+    .footer-links a { color:var(--muted); text-decoration:none; margin-left:0.75rem; }
+    .footer-links a:hover { color:var(--accent-dark); }
+
+    /* Small utilities */
+    .muted { color:var(--muted); }
+    .center { text-align:center; }
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero { flex-direction:column; align-items:flex-start; }
+      .hero .lead { max-width:100%; }
+      .grid.cols-3 { grid-template-columns: 1fr; }
+      .grid.cols-2 { grid-template-columns: 1fr; }
+      .header-inner { gap:0.5rem; }
+      nav { order:2; width:100%; justify-content:flex-start; gap:0.5rem; }
+    }
+
+    /* Accessibility */
+    a:focus { outline:none; box-shadow:var(--focus); border-radius:8px; }
+    .sr-only { position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+  </style>
+
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div class="site">
+    <header>
+      <div class="header-inner">
+        <a class="brand" href="{{ url_for('home') }}">
+          <img src="/static/img/logo.png" alt="HealChain Logo" class="logo" />
+          <div>
+            <h1>HealChain</h1>
+            <div style="font-size:0.85rem;color:var(--muted);margin-top:4px;">Secure patient monitoring and care coordination</div>
+          </div>
+        </a>
+
+        <nav aria-label="Primary navigation">
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('about') }}">About</a>
+          <a href="{{ url_for('doctors') }}">Doctors</a>
+          <a href="{{ url_for('monitoring') }}">Monitoring</a>
+          <a href="{{ url_for('contact') }}">Contact</a>
+          <a class="cta" href="{{ url_for('login') }}">Log in</a>
+        </nav>
+      </div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div style="text-align:center;color:var(--accent);margin-top:1rem;">
+          {% for m in messages %}<div class="card" style="display:inline-block;padding:0.6rem 1rem;border-radius:10px;">{{ m }}</div>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <main class="container">
+      <!-- Optional hero — pages can override or leave empty via content block -->
+      <section class="hero card" aria-hidden="true">
+        <div class="lead">
+          <h2>Connected care, simplified</h2>
+          <p>Monitor patients remotely, coordinate with clinicians, and keep health records secure — all in one place.</p>
+        </div>
+        <div style="text-align:right;">
+          <a class="cta" href="{{ url_for('doctors') }}">Find a doctor</a>
+        </div>
+      </section>
+
+      <!-- Main content injected by pages -->
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-weight:600;color:var(--text);">HealChain</div>
+        <div style="color:var(--muted);font-size:0.9rem;">&copy; 2025 HealChain.</div>
+      </div>
+
+      <div class="footer-links" style="display:flex;align-items:center;">
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('login') }}">Privacy</a>
+      </div>
+    </footer>
+  </div>
+
+  {% block scripts %}
+  <script>
+  (function () {
+    // Normalize login forms so they work with existing backend (no server changes)
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('form.login-form').forEach(function (form) {
+        // Ensure form posts to current path if action missing
+        var action = form.getAttribute('action');
+        if (!action || action.trim() === '') {
+          form.setAttribute('action', window.location.pathname);
+        }
+
+        // On submit, add fields expected by app.py if missing
+        form.addEventListener('submit', function () {
+          try {
+            // Map user_id -> userid (backend expects 'userid')
+            if (!form.querySelector('[name="userid"]')) {
+              var userIdField = form.querySelector('[name="user_id"], [id="user_id"], [name="userid"]');
+              if (userIdField && userIdField.value !== undefined) {
+                var hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = 'userid';
+                hidden.value = userIdField.value;
+                form.appendChild(hidden);
+              }
+            }
+
+            // Ensure password field exists under name 'password'
+            if (!form.querySelector('[name="password"]')) {
+              var pwField = form.querySelector('[type="password"]');
+              if (pwField && pwField.value !== undefined) {
+                var hiddenPw = document.createElement('input');
+                hiddenPw.type = 'hidden';
+                hiddenPw.name = 'password';
+                hiddenPw.value = pwField.value;
+                form.appendChild(hiddenPw);
+              }
+            }
+
+            // Inject default role if missing (backend expects 'role')
+            if (!form.querySelector('[name="role"]')) {
+              var roleHidden = document.createElement('input');
+              roleHidden.type = 'hidden';
+              roleHidden.name = 'role';
+              roleHidden.value = 'patient'; // change to 'doctor' if you want doctor default
+              form.appendChild(roleHidden);
+            }
+          } catch (e) {
+            // Do not block submission on script errors
+            console.warn('Login normalization error', e);
+          }
+        }, { once: false });
+      });
+    });
+  })();
+  </script>
+  {% endblock %}
+</body>
+</html>

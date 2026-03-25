@@ -1,0 +1,78 @@
+{% extends "base.htm" %}
+
+{% block title %}Patient Database – HealChain{% endblock %}
+
+{% block head_extra %}
+<style>
+  .container { max-width:1100px; margin:2rem auto; padding:0 1rem; }
+  .header-row { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1rem; }
+  .search { display:flex; gap:0.5rem; align-items:center; }
+  .search input { padding:0.5rem; border-radius:6px; border:1px solid #ddd; }
+  .btn { padding:0.5rem 0.75rem; border-radius:6px; text-decoration:none; color:#000; background:#fff; border:1px solid rgba(0,0,0,0.08); cursor:pointer; }
+  .primary { background:#009688; color:#fff; border:1px solid #009688; }
+  table { width:100%; border-collapse:collapse; background:#fff; color:#000; border-radius:6px; overflow:hidden; }
+  th, td { padding:0.6rem 0.75rem; border:1px solid #e0e0e0; text-align:left; }
+  th { background:#f5f5f5; }
+  .muted { color:#666; font-size:0.95rem; }
+  .empty { padding:1rem; text-align:center; color:#ccc; background:#111; border-radius:6px; }
+  @media (max-width:700px) { .header-row { flex-direction:column; align-items:stretch; } table { font-size:0.9rem; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="header-row">
+    <div>
+      <h1 style="margin:0;color:#00e5ff">Patient Database</h1>
+      {% if doctor %}
+        <div class="muted">Logged in as Dr. <strong>{{ doctor.name }}</strong> (ID: <strong>{{ doctor.doctor_id }}</strong>)</div>
+      {% endif %}
+    </div>
+
+    <div class="search">
+      <form method="GET" action="{{ url_for('doctor_view') }}" style="display:flex;gap:0.5rem;">
+        <input type="text" name="q" placeholder="Search by name or ID" value="{{ request.args.get('q','') }}" />
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <a class="btn primary" href="{{ url_for('doctor_patient_register_post') }}">+ Register Patient</a>
+    </div>
+  </div>
+
+  {% if patients and patients|length > 0 %}
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Patient ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Assigned Doctor</th>
+            <th>Last Record</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in patients %}
+            <tr>
+              <td>{{ p.patient_id }}</td>
+              <td>{{ p.patient_name }}</td>
+              <td>{{ p.age or '—' }}</td>
+              <td>{{ p.gender or '—' }}</td>
+              <td>{{ p.doctor_name or '—' }}</td>
+              <td>{{ p.last_record_date or '—' }}</td>
+              <td>
+                <a class="btn" href="{{ url_for('doctor_patient_profile', patient_id=p.patient_id) }}">View</a>
+                <a class="btn" href="{{ url_for('patient_history', patient_id=p.patient_id) }}">History</a>
+                <a class="btn" href="{{ url_for('assign_doctor', patient_id=p.patient_id) }}">Assign</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty">No patients found. Use <strong>Register Patient</strong> to add new patients.</div>
+  {% endif %}
+</div>
+{% endblock %}

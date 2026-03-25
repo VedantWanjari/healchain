@@ -1,0 +1,49 @@
+{% extends "base.htm" %}
+
+{% block title %}Doctor Dashboard – HealChain{% endblock %}
+
+{% block head_extra %}
+<style>
+  .dashboard { text-align:center; padding:3rem 1rem; }
+  .role-btn { display:inline-block; background:#009688; color:#fff; padding:1rem 2rem; margin:1rem; border-radius:6px; border:none; cursor:pointer; }
+  .role-btn:hover { background:#00796B; }
+  table { margin:0 auto; background:#fff; color:#000; border-collapse:collapse; }
+  th, td { padding:.5rem; border:1px solid #009688; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+  <h1>Welcome to HealChain</h1>
+
+  {% if doctor %}
+    <div style="text-align:center;color:#00e5ff;margin-bottom:1rem;">
+      Logged in as Dr. <strong>{{ doctor.name }}</strong> (ID: <strong>{{ doctor.doctor_id }}</strong>)
+    </div>
+  {% endif %}
+
+  <p>Choose what you would like to do:</p>
+
+  <a href="{{ url_for('doctor_view') }}"><button class="role-btn">View Patient Database</button></a>
+  <a href="{{ url_for('doctor_patient_register_post') }}"><button class="role-btn">Register a Patient</button></a>
+
+  {% if patients %}
+    <h2 style="color:#009688;margin-top:2rem;">Your Patients</h2>
+    <table>
+      <tr><th>Patient ID</th><th>Name</th><th>Age</th><th>View Profile</th></tr>
+      {% for p in patients %}
+      <tr>
+        <td>{{ p.patient_id }}</td>
+        <td>{{ p.patient_name }}</td>
+        <td>{{ p.age }}</td>
+        <td>
+          <a href="{{ url_for('doctor_patient_profile', patient_id=p.patient_id) }}">
+            <button class="role-btn" style="padding:0.5rem 1rem;font-size:1rem;">View</button>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+</div>
+{% endblock %}
