@@ -395,3 +395,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Last Updated:** March 25, 2026  
 **Version:** 1.0.0 (MVP)  
 **Status:** 🟢 Active Development
+This repository is maintained as a research prototype and may not be actively updated to comply with future regulatory changes.
