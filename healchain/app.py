@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 _secret_key = os.environ.get("SECRET_KEY")
 if not _secret_key:
-    logger.warning("SECRET_KEY environment variable not set; using insecure fallback. Set SECRET_KEY in production.")
+    logger.warning("SECRET_KEY environment variable not set; using insecure fallback. Please set SECRET_KEY in production.")
     _secret_key = "healchain-fallback-dev-key"
 app.secret_key = _secret_key
 
