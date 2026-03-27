@@ -1,37 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Assign Patient</title>
-<link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <style>
-    body { background:#000; color:#fff; font-family:Segoe UI, sans-serif; padding:2rem; }
-    .card{ background:#fff;color:#000;border-radius:8px;padding:1rem;max-width:700px;margin:0 auto;}
-    label{display:block;margin-top:0.5rem}
-    input,select{width:100%;padding:0.5rem;border-radius:6px;border:1px solid #ddd}
-    button{margin-top:0.75rem;padding:0.5rem 0.75rem;border-radius:6px;background:#009688;color:#fff;border:none}
-    .muted{color:#666;font-size:0.9rem}
-  </style>
-</head>
-<body>
-  <h1 style="color:#00e5ff">Assign Patient: {{ patient.patient_name }}</h1>
-  <div class="card">
-    <form method="POST">
-      <label>New Doctor ID</label>
-      <input name="new_doctor_id" list="doctors" placeholder="Type doctor id" required />
-      <datalist id="doctors">
-        {% for d in doctors %}
-        <option value="{{ d.doctor_id }}">{{ d.name }}</option>
-        {% endfor %}
-      </datalist>
-      <label>Keep recording for me?</label>
-      <select name="keep_recording">
-        <option value="yes">Yes (both doctors can view)</option>
-        <option value="no">No (only assigned doctor views)</option>
-      </select>
-      <div class="muted" style="margin-top:0.5rem">Previous patient data is preserved and not erased.</div>
-      <button type="submit">Assign</button>
-    </form>
+{% extends "base.html" %}
+{% block title %}Assign Doctor – HealChain{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h1 class="text-teal fw-bold mb-4">Assign Patient: {{ patient.patient_name }}</h1>
+        <div class="card-dark p-4 rounded">
+          <form method="POST">
+            <div class="mb-3">
+              <label class="form-label fw-bold">New Doctor ID</label>
+              <input class="form-control" name="new_doctor_id" list="doctors" placeholder="Type doctor id" required />
+              <datalist id="doctors">
+                {% for d in doctors %}
+                  <option value="{{ d.doctor_id }}">{{ d.name }}</option>
+                {% endfor %}
+              </datalist>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Keep recording for me?</label>
+              <select class="form-select" name="keep_recording">
+                <option value="yes">Yes (both doctors can view)</option>
+                <option value="no">No (only assigned doctor views)</option>
+              </select>
+            </div>
+            <div class="text-muted small mb-3">Previous patient data is preserved and not erased.</div>
+            <button type="submit" class="btn btn-teal w-100">Assign</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-</body>
-</html>
+</section>
+{% endblock %}

@@ -1,34 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Record Miscellaneous Data</title>
-<link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <style>
-    body{background:#000;color:#fff;font-family:Segoe UI;padding:2rem}
-    .card{background:#111;padding:1rem;border-radius:8px;max-width:700px;margin:0 auto}
-    label{display:block;margin-top:0.5rem}
-    input,textarea{width:100%;padding:0.5rem;border-radius:6px;border:1px solid #333;background:#fff;color:#000}
-    button{margin-top:0.5rem;padding:0.5rem 0.75rem;border-radius:6px;background:#009688;border:none;color:#fff}
-  </style>
-</head>
-<body>
-  <h1 style="color:#009688">Record Miscellaneous Data</h1>
-  <div class="card">
-    <form method="POST" enctype="multipart/form-data">
-      <label>Date</label>
-      <input type="date" name="date" />
-      <label>Time</label>
-      <input type="time" name="time" />
-      <label>Notes</label>
-      <textarea name="notes" rows="4"></textarea>
-      <label>Upload file (any format)</label>
-      <input type="file" name="upload" />
-      <div style="margin-top:0.5rem">
-        <button type="submit">Submit</button>
-        <a style="margin-left:0.5rem;color:#ccc" href="{{ url_for('patient_dashboard') }}">Cancel</a>
-      </div>
-    </form>
+{% extends "base.html" %}
+{% block title %}Record Miscellaneous Data – HealChain{% endblock %}
+{% block content %}
+<section class="py-4">
+  <div class="container" style="max-width:700px">
+    <h1 class="text-teal fw-bold mb-4">Record Miscellaneous Data</h1>
+    <div class="card-dark p-4 rounded">
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('patient_record_misc') }}">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Date</label>
+          <input type="date" class="form-control" name="date" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Time</label>
+          <input type="time" class="form-control" name="time" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Notes</label>
+          <textarea class="form-control" name="notes" rows="4"></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-bold">Upload file (any format)</label>
+          <input type="file" class="form-control" name="upload" />
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-teal">Submit</button>
+          <a class="btn btn-outline-secondary" href="{{ url_for('patient_dashboard') }}">Cancel</a>
+        </div>
+      </form>
+    </div>
   </div>
-</body>
-</html>
+</section>
+{% endblock %}

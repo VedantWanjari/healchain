@@ -1,90 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Patient Dashboard – HealChain</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000000;
-      color: #FFFFFF;
-      padding: 2rem;
-    }
-
-    h1 {
-      text-align: center;
-      color: #009688;
-      margin-bottom: 2rem;
-    }
-
-    form {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-
-    input {
-      width: 100%;
-      padding: 0.6rem;
-      margin-top: 0.5rem;
-      border-radius: 4px;
-      border: none;
-      background-color: #FFFFFF;
-      color: #000000;
-    }
-
-    button {
-      margin-top: 2rem;
-      background-color: #009688;
-      color: #FFFFFF;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #00796B;
-    }
-  </style>
-</head>
-<body>
-  <h1>Upload Daily Health Data</h1>
-
-{% if patient %}
-  <div style="text-align:center;color:#00e5ff;margin-bottom:1rem;">
-    Logged in as <strong>{{ patient.patient_name }}</strong> (ID: <strong>{{ patient.patient_id }}</strong>)
+{% extends "base.html" %}
+{% block title %}Patient Dashboard – HealChain{% endblock %}
+{% block content %}
+<section class="py-4">
+  <div class="container" style="max-width:700px">
+    <h1 class="text-teal fw-bold text-center mb-4">Upload Daily Health Data</h1>
+    {% if patient %}
+      <div class="text-center mb-3">
+        Logged in as <strong>{{ patient.patient_name }}</strong> (ID: <strong>{{ patient.patient_id }}</strong>)
+      </div>
+    {% endif %}
+    <div class="card-dark p-4 rounded">
+      <form action="{{ url_for('patient_daily_post') }}" method="POST">
+        <div class="mb-3">
+          <label for="date" class="form-label fw-bold">Date</label>
+          <input type="date" class="form-control" id="date" name="date" required />
+        </div>
+        <div class="mb-3">
+          <label for="patient_id" class="form-label fw-bold">Patient ID</label>
+          <input type="text" class="form-control" id="patient_id" name="patient_id" required
+                 value="{{ patient.patient_id if patient and patient.patient_id else '' }}" />
+        </div>
+        <div class="mb-3">
+          <label for="sugar" class="form-label fw-bold">Blood Sugar (mg/dL)</label>
+          <input type="number" class="form-control" id="sugar" name="sugar" required />
+        </div>
+        <div class="mb-3">
+          <label for="weight" class="form-label fw-bold">Weight (kg)</label>
+          <input type="number" class="form-control" id="weight" name="weight" required />
+        </div>
+        <div class="mb-4">
+          <label for="bp" class="form-label fw-bold">Blood Pressure (e.g. 120/80)</label>
+          <input type="text" class="form-control" id="bp" name="bp" required />
+        </div>
+        <button type="submit" class="btn btn-teal w-100">Submit Data</button>
+      </form>
+    </div>
   </div>
-{% endif %}
-
-<form action="{{ url_for('patient_daily_post') }}" method="POST">
-  <label for="date">Date</label>
-  <input type="date" id="date" name="date" required />
-
-  <label for="patient_id">Patient ID</label>
-  <input type="text" id="patient_id" name="patient_id" required
-         value="{{ patient.patient_id if patient and patient.patient_id else '' }}" />
-
-  <label for="sugar">Blood Sugar (mg/dL)</label>
-  <input type="number" id="sugar" name="sugar" required />
-
-  <label for="weight">Weight (kg)</label>
-  <input type="number" id="weight" name="weight" required />
-
-  <label for="bp">Blood Pressure (e.g. 120/80)</label>
-  <input type="text" id="bp" name="bp" required />
-
-  <button type="submit">Submit Data</button>
-</form>
-
-</body>
-</html>
+</section>
+{% endblock %}

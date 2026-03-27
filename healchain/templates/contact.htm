@@ -1,171 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us – HealChain</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png" />
-  
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000000;
-      color: #FFFFFF;
-    }
-
-    header {
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-
-    .logo {
-      max-width: 120px;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin: 0;
-      color: #FFFFFF;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      color: #009688;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .contact-section {
-      padding: 3rem 1rem;
-      text-align: center;
-    }
-
-    .contact-section h2 {
-      font-size: 1.8rem;
-      color: #009688;
-      margin-bottom: 1rem;
-    }
-
-    .contact-section p {
-      font-size: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .contact-form {
-      max-width: 500px;
-      margin: 0 auto;
-      text-align: left;
-    }
-
-    .contact-form label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      padding: 0.6rem;
-      margin-bottom: 1rem;
-      border: none;
-      border-radius: 4px;
-      background-color: #FFFFFF;
-      color: #000000;
-      font-size: 1rem;
-    }
-
-    .contact-form button {
-      background-color: #009688;
-      color: #FFFFFF;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .contact-form button:hover {
-      background-color: #00796B;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #FFFFFF;
-      border-top: 1px solid #009688;
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .contact-section h2 {
-        font-size: 1.5rem;
-      }
-
-      .contact-form input,
-      .contact-form textarea {
-        font-size: 0.95rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="/static/img/logo.png" alt="HealChain Logo" class="logo" />
-    <h1>HealChain</h1>
-  <nav>
-  <a href="{{ url_for('home') }}">Home</a>
-  <a href="{{ url_for('about') }}">About</a>
-  <a href="{{ url_for('doctors') }}">Doctors</a>
-  <a href="{{ url_for('monitoring') }}">Monitoring</a>
-  <a href="{{ url_for('contact') }}">Contact</a>
-  <a href="{{ url_for('login') }}">Log in</a>
-</nav>
-
-  </header>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <div style="text-align:center;color:#00e5ff;margin-top:1rem;">
-      {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+{% extends "base.html" %}
+{% block title %}Contact Us – HealChain{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h2 class="text-teal fw-bold mb-2 text-center">Contact Us</h2>
+        <p class="text-center mb-4">If you have any questions or feedback, feel free to reach out to us at <strong>sadsasd@zxsd.com</strong> or use the form below.</p>
+        <div class="card-dark p-4 rounded">
+          <form action="{{ url_for('submit_feedback') }}" method="POST">
+            <div class="mb-3">
+              <label for="name" class="form-label fw-bold">Name</label>
+              <input type="text" class="form-control" id="name" name="name" required />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-bold">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required />
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label fw-bold">Message</label>
+              <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-teal w-100">Submit</button>
+          </form>
+        </div>
+      </div>
     </div>
-  {% endif %}
-{% endwith %}
-
-
-  <section class="contact-section">
-    <h2>Contact Us</h2>
-    <p>If you have any questions or feedback, feel free to reach out to us at <strong>sadsasd@zxsd.com</strong> or use the form below.</p>
-
-<form class="contact-form" action="{{ url_for('submit_feedback') }}" method="POST">
-  <label for="name">Name</label>
-  <input type="text" id="name" name="name" required />
-  <label for="email">Email</label>
-  <input type="email" id="email" name="email" required />
-  <label for="message">Message</label>
-  <textarea id="message" name="message" rows="5" required></textarea>
-  <button type="submit">Submit</button>
-</form>
-
-  </section>
-
-  <footer>
-    &copy; 2025 HealChain. All rights reserved.
-  </footer>
-
-
-</body>
-</html>
+  </div>
+</section>
+{% endblock %}

@@ -1,32 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Patient Profile</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <style>
-    body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 2rem; text-align: center; }
-    h1 { color: #00e5ff; }
-    .profile-box { background-color: #fff; color: #000; padding: 1.5rem; border-radius: 8px; max-width: 700px; margin: 2rem auto; box-shadow: 0 0 10px #009688; text-align:left;}
-    .profile-row { display:flex; gap:1rem; justify-content:space-between; padding:0.25rem 0; }
-    .controls { display:flex; gap:0.5rem; justify-content:center; margin-top:1rem; }
-    a.button { padding:0.5rem 0.75rem; border-radius:6px; text-decoration:none; color:#000; background:#fff; border:1px solid rgba(0,0,0,0.08); cursor:pointer; }
-    .primary { background:#009688; color:#fff; border:1px solid #009688; }
-  </style>
-</head>
-<body>
-  <h1>Patient Profile</h1>
-  <div class="profile-box">
-    <div class="profile-row"><strong>Patient ID:</strong><span>{{ patient.patient_id }}</span></div>
-    <div class="profile-row"><strong>Name:</strong><span>{{ patient.patient_name }}</span></div>
-    <div class="profile-row"><strong>Age:</strong><span>{{ patient.age }}</span></div>
-    <div class="profile-row"><strong>Gender:</strong><span>{{ patient.gender }}</span></div>
-    <div class="profile-row"><strong>Doctor:</strong><span>{{ patient.doctor_name }}</span></div>
-
-    <div class="controls">
-      <a class="button primary" href="{{ url_for('manage_requirements', patient_id=patient.patient_id) }}">Manage data requirement</a>
-      <a class="button" href="{{ url_for('assign_doctor', patient_id=patient.patient_id) }}">Assign another doctor</a>
+{% extends "base.html" %}
+{% block title %}Patient Profile – HealChain{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h1 class="text-teal fw-bold text-center mb-4">Patient Profile</h1>
+        <div class="card-dark p-4 rounded">
+          <table class="table table-dark table-borderless mb-4">
+            <tbody>
+              <tr><th style="width:40%">Patient ID</th><td>{{ patient.patient_id }}</td></tr>
+              <tr><th>Name</th><td>{{ patient.patient_name }}</td></tr>
+              <tr><th>Age</th><td>{{ patient.age }}</td></tr>
+              <tr><th>Gender</th><td>{{ patient.gender }}</td></tr>
+              <tr><th>Doctor</th><td>{{ patient.doctor_name }}</td></tr>
+            </tbody>
+          </table>
+          <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-teal" href="{{ url_for('manage_requirements', patient_id=patient.patient_id) }}">
+              <i class="fas fa-tasks me-1"></i>Manage data requirement
+            </a>
+            <a class="btn btn-outline-light" href="{{ url_for('assign_doctor', patient_id=patient.patient_id) }}">
+              <i class="fas fa-user-md me-1"></i>Assign another doctor
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</body>
-</html>
+</section>
+{% endblock %}

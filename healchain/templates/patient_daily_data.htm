@@ -1,73 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Patient Records – HealChain</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <style>
-    :root { --accent:#009688; --bg:#000; --muted:#bdbdbd; }
-    body { background:var(--bg); color:#fff; font-family:Segoe UI, sans-serif; padding:2rem; margin:0; }
-    .container { max-width:1100px; margin:0 auto; }
-    header { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
-    h1 { color:var(--accent); margin:0; font-size:1.25rem; }
-    .meta { color:var(--muted); font-size:0.95rem; }
-    .controls { display:flex; gap:0.5rem; align-items:center; }
-    a.button, button { padding:0.5rem 0.75rem; border-radius:6px; text-decoration:none; color:#000; background:#fff; border:1px solid rgba(0,0,0,0.08); cursor:pointer; }
-    .primary { background:var(--accent); color:#fff; border:1px solid var(--accent); }
-    .primary[aria-disabled="true"], .button[aria-disabled="true"] { opacity:0.5; pointer-events:none; cursor:default; }
-    .card { background:#fff; color:#000; padding:1rem; border-radius:8px; margin-bottom:1rem; }
-    .summary { display:flex; gap:1rem; flex-wrap:wrap; }
-    .stat { padding:0.75rem 1rem; border-radius:6px; background:#f7f7f7; min-width:140px; text-align:center; }
-    .table-wrap { overflow-x:auto; border-radius:6px; }
-    table { width:100%; border-collapse:collapse; min-width:700px; }
-    th, td { padding:0.6rem 0.75rem; border:1px solid var(--accent); text-align:center; }
-    th { background:var(--accent); color:#fff; position:sticky; top:0; }
-    .no-data { padding:1rem; text-align:center; color:#666; }
-    .section-title { font-size:1.1rem; font-weight:600; margin-bottom:0.5rem; color:var(--accent); }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
+{% extends "base.html" %}
+{% block title %}Patient Records – HealChain{% endblock %}
+{% block content %}
+<section class="py-4">
+  <div class="container" style="max-width:1100px">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
       <div>
-        <h1>Records for {{ patient.name }}</h1>
-        <div class="meta">Patient ID: <strong>{{ patient.id }}</strong> • Age: {{ patient.age or '—' }} • Sex: {{ patient.sex or '—' }}</div>
+        <h1 class="text-teal fw-bold mb-0" style="font-size:1.4rem">Records for {{ patient.name }}</h1>
+        <div class="text-muted small">Patient ID: <strong>{{ patient.id }}</strong> &bull; Age: {{ patient.age or '—' }} &bull; Sex: {{ patient.sex or '—' }}</div>
       </div>
-      <div class="controls">
-        <a class="button" href="{{ url_for('doctor_view') }}">← Back to Patients</a>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="{{ url_for('doctor_view') }}">
+          <i class="fas fa-arrow-left me-1"></i>Back to Patients
+        </a>
         {% if rows and rows|length > 0 %}
-          <a class="button primary" href="{{ url_for('export_patient_csv', patient_id=patient.id) }}">Export CSV</a>
+          <a class="btn btn-teal btn-sm" href="{{ url_for('export_patient_csv', patient_id=patient.id) }}">
+            <i class="fas fa-file-csv me-1"></i>Export CSV
+          </a>
         {% else %}
-          <a class="button primary" aria-disabled="true">Export CSV</a>
+          <a class="btn btn-teal btn-sm disabled" aria-disabled="true">Export CSV</a>
         {% endif %}
       </div>
-    </header>
+    </div>
 
-    <div class="card">
-      <div class="summary">
-        <div class="stat">
-          <div style="font-size:0.85rem;color:#666">Records</div>
-          <div style="font-weight:700; font-size:1.25rem;">{{ rows|length }}</div>
+    <div class="card-dark p-3 rounded mb-3">
+      <div class="d-flex flex-wrap gap-3">
+        <div class="text-center p-3 rounded" style="background:#1a1a1a;min-width:120px">
+          <div class="text-muted small">Records</div>
+          <div class="fw-bold fs-4">{{ rows|length }}</div>
         </div>
-        <div class="stat">
-          <div style="font-size:0.85rem;color:#666">Avg Blood Sugar</div>
-          <div style="font-weight:700; font-size:1.25rem;">{{ avg_blood_sugar }}</div>
+        <div class="text-center p-3 rounded" style="background:#1a1a1a;min-width:120px">
+          <div class="text-muted small">Avg Blood Sugar</div>
+          <div class="fw-bold fs-4">{{ avg_blood_sugar }}</div>
         </div>
-        <div class="stat">
-          <div style="font-size:0.85rem;color:#666">Avg Weight (kg)</div>
-          <div style="font-weight:700; font-size:1.25rem;">{{ avg_weight }}</div>
+        <div class="text-center p-3 rounded" style="background:#1a1a1a;min-width:120px">
+          <div class="text-muted small">Avg Weight (kg)</div>
+          <div class="fw-bold fs-4">{{ avg_weight }}</div>
         </div>
-        <div class="stat">
-          <div style="font-size:0.85rem;color:#666">Latest BP</div>
-          <div style="font-weight:700; font-size:1.25rem;">{{ latest_bp or '—' }}</div>
+        <div class="text-center p-3 rounded" style="background:#1a1a1a;min-width:120px">
+          <div class="text-muted small">Latest BP</div>
+          <div class="fw-bold fs-4">{{ latest_bp or '—' }}</div>
         </div>
       </div>
     </div>
 
     {% if rows and rows|length > 0 %}
-      <div class="table-wrap card" role="region" aria-label="Patient monitoring records">
-        <table>
+      <div class="table-responsive card-dark p-3 rounded mb-3">
+        <table class="table table-dark table-bordered table-healchain mb-0">
           <thead>
             <tr>
               <th>Date</th>
@@ -86,7 +64,7 @@
                 {% for col in requirements %}
                   {% set val = r[col.key] %}
                   {% if col.input_type == 'upload' and val %}
-                    <td><a href="{{ val }}" target="_blank">View File</a></td>
+                    <td><a href="{{ val }}" target="_blank" class="text-teal">View File</a></td>
                   {% else %}
                     <td>{{ val or '—' }}</td>
                   {% endif %}
@@ -98,30 +76,30 @@
         </table>
       </div>
     {% else %}
-      <div class="card no-data">No monitoring records available for this patient.</div>
+      <div class="card-dark p-3 rounded text-center text-muted mb-3">No monitoring records available for this patient.</div>
     {% endif %}
 
     {% if misc and misc|length > 0 %}
-    <div class="card">
-      <div class="section-title">Miscellaneous Records</div>
-      <ul>
-        {% for m in misc %}
-          <li><strong>{{ m.date }} {{ m.time }}</strong>: {{ m.notes }} {% if m.upload_path %}(<a href="{{ m.upload_path }}" target="_blank">View File</a>){% endif %}</li>
-        {% endfor %}
-      </ul>
-    </div>
+      <div class="card-dark p-3 rounded mb-3">
+        <h5 class="text-teal mb-2">Miscellaneous Records</h5>
+        <ul class="mb-0">
+          {% for m in misc %}
+            <li><strong>{{ m.date }} {{ m.time }}</strong>: {{ m.notes }} {% if m.upload_path %}(<a href="{{ m.upload_path }}" target="_blank" class="text-teal">View File</a>){% endif %}</li>
+          {% endfor %}
+        </ul>
+      </div>
     {% endif %}
 
     {% if messages and messages|length > 0 %}
-    <div class="card">
-      <div class="section-title">Messages from Patient</div>
-      <ul>
-        {% for m in messages %}
-          <li><strong>{{ m.timestamp }}</strong>: {{ m.message }}</li>
-        {% endfor %}
-      </ul>
-    </div>
+      <div class="card-dark p-3 rounded mb-3">
+        <h5 class="text-teal mb-2">Messages from Patient</h5>
+        <ul class="mb-0">
+          {% for m in messages %}
+            <li><strong>{{ m.timestamp }}</strong>: {{ m.message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     {% endif %}
   </div>
-</body>
-</html>
+</section>
+{% endblock %}

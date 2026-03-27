@@ -1,101 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Manage Data Requirements</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <style>
-    :root { --accent:#009688; --bg:#000; --muted:#bdbdbd; }
-    body { background:var(--bg); color:#fff; font-family:Segoe UI, sans-serif; padding:2rem; margin:0; }
-    .container { max-width:900px; margin:0 auto; }
-    h1 { color:var(--accent); margin:0 0 1rem 0; }
-    .card { background:#fff; color:#000; padding:1rem; border-radius:8px; margin-bottom:1rem; }
-    label { display:block; margin-top:0.5rem; font-weight:600; }
-    input, select { width:100%; padding:0.5rem; margin-top:0.25rem; border-radius:6px; border:1px solid #ddd; }
-    button { margin-top:0.6rem; padding:0.5rem 0.75rem; border-radius:6px; background:var(--accent); color:#fff; border:none; cursor:pointer; }
-    .req-list { display:flex; flex-direction:column; gap:0.5rem; }
-    .req-item { padding:0.6rem; border:1px solid #ddd; border-radius:6px; background:#fafafa; display:flex; justify-content:space-between; align-items:center; }
-    .muted { color:#666; font-size:0.9rem; }
-    .actions { display:flex; gap:0.5rem; }
-    .small { padding:0.3rem 0.5rem; font-size:0.9rem; border-radius:6px; border:none; cursor:pointer; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Manage Data Requirements for {{ patient.patient_name }}</h1>
+{% extends "base.html" %}
+{% block title %}Manage Requirements – HealChain{% endblock %}
+{% block content %}
+<section class="py-4">
+  <div class="container" style="max-width:900px">
+    <h1 class="text-teal fw-bold mb-4">Manage Data Requirements for {{ patient.patient_name }}</h1>
 
-    <div class="card">
+    <div class="card-dark p-4 rounded mb-4">
+      <h5 class="mb-3">Add New Requirement</h5>
       <form method="POST">
         <input type="hidden" name="action" value="add" />
-        <label>Field name (key)</label>
-        <input name="field_name" placeholder="e.g., weight" />
-        <label>Label (shown to patient)</label>
-        <input name="label" placeholder="e.g., Weight" />
-        <label>Unit (optional)</label>
-        <input name="unit" placeholder="e.g., kg" />
-        <label>Input type</label>
-        <select name="input_type">
-          <option value="text">Text</option>
-          <option value="number">Number</option>
-          <option value="upload">Upload</option>
-        </select>
-        <label>Upload formats (if upload) - semicolon separated without dots</label>
-        <input name="upload_formats" placeholder="pdf;jpg;png" />
-        <label>Warning Min (optional)</label>
-        <input name="warn_min" />
-        <label>Warning Max (optional)</label>
-        <input name="warn_max" />
-        <div style="margin-top:0.75rem;"><button type="submit">Add requirement</button></div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Field name (key)</label>
+            <input class="form-control" name="field_name" placeholder="e.g., weight" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Label (shown to patient)</label>
+            <input class="form-control" name="label" placeholder="e.g., Weight" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Unit (optional)</label>
+            <input class="form-control" name="unit" placeholder="e.g., kg" />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Input type</label>
+            <select class="form-select" name="input_type">
+              <option value="text">Text</option>
+              <option value="number">Number</option>
+              <option value="upload">Upload</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Upload formats <span class="text-muted fw-normal">(semicolon-sep, no dots)</span></label>
+            <input class="form-control" name="upload_formats" placeholder="pdf;jpg;png" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Warning Min (optional)</label>
+            <input class="form-control" name="warn_min" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Warning Max (optional)</label>
+            <input class="form-control" name="warn_max" />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-teal mt-3">Add requirement</button>
       </form>
     </div>
 
-    <div class="card">
-      <div class="muted">Existing requirements</div>
-      <div class="req-list">
-        {% for r in requirements %}
-        <div class="req-item">
-          <div>
-            <strong>{{ r.label }}</strong> <span class="muted">({{ r.key }})</span><br/>
-            <span class="muted">{{ r.input_type }} {{ r.unit and '• ' + r.unit or '' }} {{ r.upload_formats and '• formats:' + r.upload_formats or '' }}</span>
-            {% if r.warn_min or r.warn_max %}<div class="muted">Warning range: {{ r.warn_min or '—' }} to {{ r.warn_max or '—' }}</div>{% endif %}
-          </div>
-          <div class="actions">
-            <form method="POST" style="display:inline;">
-              <input type="hidden" name="action" value="remove" />
-              <input type="hidden" name="key" value="{{ r.key }}" />
-              <button class="small" type="submit" style="background:#e53935;color:#fff;">Remove</button>
-            </form>
-            <details style="background:#fff;padding:0.5rem;border-radius:6px;">
-              <summary style="cursor:pointer;">Edit</summary>
-              <form method="POST" style="margin-top:0.5rem;">
-                <input type="hidden" name="action" value="update" />
+    <div class="card-dark p-4 rounded">
+      <h5 class="text-muted mb-3">Existing Requirements</h5>
+      {% for r in requirements %}
+        <div class="border border-secondary rounded p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+              <strong>{{ r.label }}</strong> <span class="text-muted">({{ r.key }})</span><br/>
+              <small class="text-muted">{{ r.input_type }} {% if r.unit %}&bull; {{ r.unit }}{% endif %} {% if r.upload_formats %}&bull; formats: {{ r.upload_formats }}{% endif %}</small>
+              {% if r.warn_min or r.warn_max %}
+                <div class="text-muted small">Warning range: {{ r.warn_min or '—' }} to {{ r.warn_max or '—' }}</div>
+              {% endif %}
+            </div>
+            <div class="d-flex gap-2">
+              <form method="POST" style="display:inline;">
+                <input type="hidden" name="action" value="remove" />
                 <input type="hidden" name="key" value="{{ r.key }}" />
-                <label>Label</label>
-                <input name="label" value="{{ r.label }}" />
-                <label>Unit</label>
-                <input name="unit" value="{{ r.unit }}" />
-                <label>Input type</label>
-                <select name="input_type">
-                  <option {% if r.input_type=='text' %}selected{% endif %} value="text">Text</option>
-                  <option {% if r.input_type=='number' %}selected{% endif %} value="number">Number</option>
-                  <option {% if r.input_type=='upload' %}selected{% endif %} value="upload">Upload</option>
-                </select>
-                <label>Upload formats</label>
-                <input name="upload_formats" value="{{ r.upload_formats }}" />
-                <label>Warn min</label>
-                <input name="warn_min" value="{{ r.warn_min }}" />
-                <label>Warn max</label>
-                <input name="warn_max" value="{{ r.warn_max }}" />
-                <div style="margin-top:0.5rem;"><button type="submit">Save</button></div>
+                <button class="btn btn-danger btn-sm" type="submit">Remove</button>
               </form>
-            </details>
+            </div>
           </div>
+          <details class="mt-2">
+            <summary class="text-teal" style="cursor:pointer">Edit</summary>
+            <form method="POST" class="mt-2">
+              <input type="hidden" name="action" value="update" />
+              <input type="hidden" name="key" value="{{ r.key }}" />
+              <div class="row g-2">
+                <div class="col-md-6">
+                  <label class="form-label">Label</label>
+                  <input class="form-control form-control-sm" name="label" value="{{ r.label }}" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Unit</label>
+                  <input class="form-control form-control-sm" name="unit" value="{{ r.unit }}" />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Input type</label>
+                  <select class="form-select form-select-sm" name="input_type">
+                    <option {% if r.input_type=='text' %}selected{% endif %} value="text">Text</option>
+                    <option {% if r.input_type=='number' %}selected{% endif %} value="number">Number</option>
+                    <option {% if r.input_type=='upload' %}selected{% endif %} value="upload">Upload</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Upload formats</label>
+                  <input class="form-control form-control-sm" name="upload_formats" value="{{ r.upload_formats }}" />
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Warn min</label>
+                  <input class="form-control form-control-sm" name="warn_min" value="{{ r.warn_min }}" />
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Warn max</label>
+                  <input class="form-control form-control-sm" name="warn_max" value="{{ r.warn_max }}" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-teal btn-sm mt-2">Save</button>
+            </form>
+          </details>
         </div>
-        {% else %}
-          <div class="muted">No requirements set for this patient.</div>
-        {% endfor %}
-      </div>
+      {% else %}
+        <div class="text-muted">No requirements set for this patient.</div>
+      {% endfor %}
     </div>
   </div>
-</body>
-</html>
+</section>
+{% endblock %}
