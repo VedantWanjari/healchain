@@ -1,50 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Record Required Data</title>
-<link rel="icon" type="image/png" href="/static/img/favicon.png">
-  <style>
-    body{background:#000;color:#fff;font-family:Segoe UI;padding:2rem}
-    .card{background:#111;padding:1rem;border-radius:8px;max-width:900px;margin:0 auto}
-    label{display:block;margin-top:0.5rem}
-    input,textarea,select{width:100%;padding:0.5rem;border-radius:6px;border:1px solid #333;background:#fff;color:#000}
-    button{margin-top:0.5rem;padding:0.5rem 0.75rem;border-radius:6px;background:#009688;border:none;color:#fff}
-  </style>
-</head>
-<body>
-  <h1 style="color:#009688">Record required data</h1>
-  <div class="card">
-    {% if requirements|length == 0 %}
-      <div style="color:#ccc">No required fields specified by your doctor. You can still record miscellaneous data.</div>
-    {% endif %}
-    <form method="POST" enctype="multipart/form-data">
-      <label>Date</label>
-      <input type="date" name="date" />
-      <label>Time</label>
-      <input type="time" name="time" />
-      <label>Notes (optional)</label>
-      <textarea name="notes" rows="3"></textarea>
-      <hr style="border-color:#222" />
-      {% for r in requirements %}
-        <label>{{ r.label }} {% if r.unit %} ({{ r.unit }}) {% endif %}</label>
-        {% if r.input_type == 'upload' %}
-          <input type="file" name="{{ r.key }}" accept="{{ r.upload_formats and ('.' + r.upload_formats.replace(';','.,')) or '' }}" />
-          <div style="color:#999;font-size:0.9rem">Allowed: {{ r.upload_formats or 'any' }}</div>
-        {% elif r.input_type == 'number' %}
-          <input type="number" step="any" name="{{ r.key }}" />
-        {% else %}
-          <input type="text" name="{{ r.key }}" />
-        {% endif %}
-        {% if r.warn_min or r.warn_max %}
-          <div style="color:#f39c12;font-size:0.95rem">Warning range: {{ r.warn_min or '—' }} to {{ r.warn_max or '—' }} (doctor set)</div>
-        {% endif %}
-      {% endfor %}
-      <div style="margin-top:0.5rem">
-        <button type="submit">Submit</button>
-        <a style="margin-left:0.5rem;color:#ccc" href="{{ url_for('patient_dashboard') }}">Cancel</a>
-      </div>
-    </form>
+{% extends "base.html" %}
+{% block title %}Record Required Data – HealChain{% endblock %}
+{% block content %}
+<section class="py-4">
+  <div class="container" style="max-width:900px">
+    <h1 class="text-teal fw-bold mb-4">Record required data</h1>
+    <div class="card-dark p-4 rounded">
+      {% if requirements|length == 0 %}
+        <div class="text-muted mb-3">No required fields specified by your doctor. You can still record miscellaneous data.</div>
+      {% endif %}
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('patient_record_required') }}">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Date</label>
+          <input type="date" class="form-control" name="date" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Time</label>
+          <input type="time" class="form-control" name="time" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Notes (optional)</label>
+          <textarea class="form-control" name="notes" rows="3"></textarea>
+        </div>
+        <hr class="border-secondary" />
+        {% for r in requirements %}
+          <div class="mb-3">
+            <label class="form-label fw-bold">{{ r.label }} {% if r.unit %}<span class="text-muted fw-normal">({{ r.unit }})</span>{% endif %}</label>
+            {% if r.input_type == 'upload' %}
+              <input type="file" class="form-control" name="{{ r.key }}" accept="{{ r.upload_formats and ('.' + r.upload_formats.replace(';','.,')) or '' }}" />
+              <div class="text-muted small">Allowed: {{ r.upload_formats or 'any' }}</div>
+            {% elif r.input_type == 'number' %}
+              <input type="number" step="any" class="form-control" name="{{ r.key }}" />
+            {% else %}
+              <input type="text" class="form-control" name="{{ r.key }}" />
+            {% endif %}
+            {% if r.warn_min or r.warn_max %}
+              <div class="text-warning small mt-1">Warning range: {{ r.warn_min or '—' }} to {{ r.warn_max or '—' }} (doctor set)</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <div class="d-flex gap-2 mt-3">
+          <button type="submit" class="btn btn-teal">Submit</button>
+          <a class="btn btn-outline-secondary" href="{{ url_for('patient_dashboard') }}">Cancel</a>
+        </div>
+      </form>
+    </div>
   </div>
-</body>
-</html>
+</section>
+{% endblock %}

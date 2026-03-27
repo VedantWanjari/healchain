@@ -1,68 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ doctor.name }} – HealChain</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png" />
-  <style>
-    body { margin:0; font-family:'Segoe UI',sans-serif; background:#000; color:#fff; }
-    header{ text-align:center; padding:2rem 1rem; }
-    .logo{ max-width:120px; margin-bottom:1rem; }
-    h1{ font-size:2rem; margin:0; color:#fff; }
-    nav{ display:flex; justify-content:center; gap:2rem; margin-top:1.5rem; flex-wrap:wrap; }
-    nav a{ color:#009688; text-decoration:none; font-weight:bold; }
-    .profile { max-width:900px; margin:2rem auto; background:#0b0b0b; border:1px solid #009688; border-radius:8px; padding:1.5rem; display:flex; gap:1.5rem; align-items:flex-start; }
-    .photo { width:180px; text-align:center; }
-    .photo img{ width:150px; height:150px; object-fit:cover; border-radius:8px; }
-    .info { flex:1; }
-    .info h2{ margin:0;color:#00e5ff; }
-    .row{ margin:0.4rem 0; color:#cfeee9; }
-    .meta{ color:#9fdfd7; font-weight:bold; }
-    footer{ text-align:center; padding:2rem 1rem; font-size:0.9rem; color:#fff; border-top:1px solid #009688; }
-    @media(max-width:700px){ .profile{ flex-direction:column; align-items:center; } .photo{ width:100%; } }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="/static/img/logo.png" alt="HealChain Logo" class="logo" />
-    <h1>HealChain</h1>
-    <nav>
-  <a href="{{ url_for('home') }}">Home</a>
-  <a href="{{ url_for('about') }}">About</a>
-  <a href="{{ url_for('doctors') }}">Doctors</a>
-  <a href="{{ url_for('monitoring') }}">Monitoring</a>
-  <a href="{{ url_for('contact') }}">Contact</a>
-  <a href="{{ url_for('login') }}">Log in</a>
-</nav>
-  </header>
-
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <div style="text-align:center;color:#00e5ff;margin-top:1rem;">
-        {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+{% extends "base.html" %}
+{% block title %}{{ doctor.name }} – HealChain{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container" style="max-width:900px">
+    <div class="card-dark p-4 rounded">
+      <div class="d-flex flex-column flex-md-row gap-4 align-items-start">
+        <div class="text-center" style="min-width:160px">
+          <img src="{{ doctor.photo_path }}" alt="Photo of {{ doctor.name }}"
+               class="rounded" style="width:150px;height:150px;object-fit:cover"
+               onerror="this.src='/static/img/logo.png'" />
+        </div>
+        <div class="flex-grow-1">
+          <h2 class="text-teal fw-bold mb-3">{{ doctor.name }}</h2>
+          <table class="table table-dark table-borderless mb-0">
+            <tbody>
+              <tr><th style="width:40%">Specialization</th><td>{{ doctor.specialization }}</td></tr>
+              <tr><th>Clinic</th><td>{{ doctor.clinic }}</td></tr>
+              <tr><th>Experience</th><td>{{ doctor.experience }}</td></tr>
+              <tr><th>Timings</th><td>{{ doctor.timings }}</td></tr>
+              <tr><th>License</th><td>{{ doctor.license }}</td></tr>
+              <tr><th>Contact</th><td>{{ doctor.contact }}</td></tr>
+              <tr><th>Email</th><td>{{ doctor.email }}</td></tr>
+              <tr><th>Address</th><td>{{ doctor.address }}</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    {% endif %}
-  {% endwith %}
-
-  <main>
-    <section class="profile">
-      <div class="photo">
-        <img src="{{ doctor.photo_path }}" alt="Photo of {{ doctor.name }}" onerror="this.src='/static/img/logo.png'">
-      </div>
-      <div class="info">
-        <h2>{{ doctor.name }}</h2>
-        <div class="row"><span class="meta">Specialization:</span> {{ doctor.specialization }}</div>
-        <div class="row"><span class="meta">Clinic:</span> {{ doctor.clinic }}</div>
-        <div class="row"><span class="meta">Experience:</span> {{ doctor.experience }}</div>
-        <div class="row"><span class="meta">Timings:</span> {{ doctor.timings }}</div>
-        <div class="row"><span class="meta">License:</span> {{ doctor.license }}</div>
-        <div class="row"><span class="meta">Contact:</span> {{ doctor.contact }} &nbsp; <span class="meta">Email:</span> {{ doctor.email }}</div>
-        <div class="row"><span class="meta">Address:</span> {{ doctor.address }}</div>
-      </div>
-    </section>
-  </main>
-
-  <footer>&copy; 2025 HealChain. All rights reserved.</footer>
-</body>
-</html>
+    </div>
+    <div class="mt-3">
+      <a href="{{ url_for('doctors') }}" class="btn btn-outline-light btn-sm">
+        <i class="fas fa-arrow-left me-1"></i>Back to Doctors
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

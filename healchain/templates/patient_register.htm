@@ -1,91 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Patient Registration – HealChain</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-  
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000000;
-      color: #FFFFFF;
-      padding: 2rem;
-    }
-
-    h1 {
-      text-align: center;
-      color: #009688;
-      margin-bottom: 2rem;
-    }
-
-    form {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.6rem;
-      margin-top: 0.5rem;
-      border-radius: 4px;
-      border: none;
-      background-color: #FFFFFF;
-      color: #000000;
-    }
-
-    button {
-      margin-top: 2rem;
-      background-color: #009688;
-      color: #FFFFFF;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #00796B;
-    }
-  </style>
-</head>
-<body>
-  <h1>Patient Registration</h1>
- <form action="{{ url_for('patient_register_post') }}" method="POST">
-  <label for="doctor">Doctor Name</label>
-  <input type="text" id="doctor" name="doctor" required />
-
-  <label for="patient">Patient Name</label>
-  <input type="text" id="patient" name="patient" required />
-
-  <label for="age">Patient Age</label>
-  <input type="number" id="age" name="age" required />
-
-  <label for="gender">Gender</label>
-  <select id="gender" name="gender" required>
-    <option value="">Select</option>
-    <option>Male</option>
-    <option>Female</option>
-    <option>Other</option>
-  </select>
-
-  <label for="patientid">Patient ID (optional, leave blank for auto)</label>
-  <input type="text" id="patientid" name="patientid" />
-
-  <label for="password">Create Password</label>
-  <input type="password" id="password" name="password" required />
-
-  <button type="submit">Register Patient</button>
-</form>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Patient Registration – HealChain{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <h1 class="text-teal fw-bold text-center mb-4">Patient Registration</h1>
+        <div class="card-dark p-4 rounded">
+          <form action="{{ url_for('patient_register_post') }}" method="POST">
+            <div class="mb-3">
+              <label for="doctor" class="form-label fw-bold">Doctor Name</label>
+              <input type="text" class="form-control" id="doctor" name="doctor" required />
+            </div>
+            <div class="mb-3">
+              <label for="patient" class="form-label fw-bold">Patient Name</label>
+              <input type="text" class="form-control" id="patient" name="patient" required />
+            </div>
+            <div class="mb-3">
+              <label for="age" class="form-label fw-bold">Patient Age</label>
+              <input type="number" class="form-control" id="age" name="age" required />
+            </div>
+            <div class="mb-3">
+              <label for="gender" class="form-label fw-bold">Gender</label>
+              <select class="form-select" id="gender" name="gender" required>
+                <option value="">Select</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="patientid" class="form-label fw-bold">Patient ID <span class="text-muted fw-normal">(optional, leave blank for auto)</span></label>
+              <input type="text" class="form-control" id="patientid" name="patientid" />
+            </div>
+            <div class="mb-4">
+              <label for="password" class="form-label fw-bold">Create Password</label>
+              <input type="password" class="form-control" id="password" name="password" required />
+            </div>
+            <button type="submit" class="btn btn-teal w-100">Register Patient</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

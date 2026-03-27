@@ -1,111 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Doctor Registration – HealChain</title>
-  <link rel="icon" type="image/png" href="/static/img/favicon.png">
-  
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000000;
-      color: #FFFFFF;
-      padding: 2rem;
-    }
-
-    h1 {
-      text-align: center;
-      color: #009688;
-      margin-bottom: 2rem;
-    }
-
-    form {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.6rem;
-      margin-top: 0.5rem;
-      border-radius: 4px;
-      border: none;
-      background-color: #FFFFFF;
-      color: #000000;
-    }
-
-    button {
-      margin-top: 2rem;
-      background-color: #009688;
-      color: #FFFFFF;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #00796B;
-    }
-  </style>
-</head>
-<body>
-  <h1>Doctor Registration</h1>
-  <form action="{{ url_for('doctor_register_post') }}" method="POST" enctype="multipart/form-data">
-  <label for="name">Full Name</label>
-  <input type="text" id="name" name="name" required />
-
-  <label for="clinic">Clinic Name</label>
-  <input type="text" id="clinic" name="clinic" required />
-
-  <label for="specialization">Specialization</label>
-  <input type="text" id="specialization" name="specialization" required />
-
-  <label for="address">Clinic Address</label>
-  <input type="text" id="address" name="address" required />
-
-  <label for="email">Email</label>
-  <input type="email" id="email" name="email" required />
-
-  <label for="contact">Contact Number</label>
-  <input type="tel" id="contact" name="contact" required />
-
-  <label for="experience">Years of Practice</label>
-  <input type="number" id="experience" name="experience" required />
-
-  <label for="license">License ID</label>
-  <input type="text" id="license" name="license" required />
-
-  <label for="idproof">Upload ID Proof</label>
-  <input type="file" id="idproof" name="idproof" accept=".pdf,.jpg,.png" required />
-
-  <label for="photo">Profile Photo</label>
-  <input type="file" id="photo" name="photo" accept=".jpg,.png" required />
-
-  <label for="timings">Clinic Timings</label>
-  <input type="text" id="timings" name="timings" placeholder="e.g. Mon–Fri, 10am–5pm" required />
-
-  <!-- Auto ID now generated server-side -->
-  <label>Doctor ID (Auto-generated)</label>
-  <input type="text" value="Will be auto-assigned" readonly />
-
-  <label for="password">Create Password</label>
-  <input type="password" id="password" name="password" required />
-
-  <label for="confirm">Verify Password</label>
-  <input type="password" id="confirm" name="confirm" required />
-
-  <button type="submit">Register Doctor</button>
-</form>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Doctor Registration – HealChain{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="text-teal fw-bold text-center mb-4">Doctor Registration</h1>
+        <div class="card-dark p-4 rounded">
+          <form action="{{ url_for('doctor_register_post') }}" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="name" class="form-label fw-bold">Full Name</label>
+              <input type="text" class="form-control" id="name" name="name" required />
+            </div>
+            <div class="mb-3">
+              <label for="clinic" class="form-label fw-bold">Clinic Name</label>
+              <input type="text" class="form-control" id="clinic" name="clinic" required />
+            </div>
+            <div class="mb-3">
+              <label for="specialization" class="form-label fw-bold">Specialization</label>
+              <input type="text" class="form-control" id="specialization" name="specialization" required />
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label fw-bold">Clinic Address</label>
+              <input type="text" class="form-control" id="address" name="address" required />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-bold">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required />
+            </div>
+            <div class="mb-3">
+              <label for="contact" class="form-label fw-bold">Contact Number</label>
+              <input type="tel" class="form-control" id="contact" name="contact" required />
+            </div>
+            <div class="mb-3">
+              <label for="experience" class="form-label fw-bold">Years of Practice</label>
+              <input type="number" class="form-control" id="experience" name="experience" required />
+            </div>
+            <div class="mb-3">
+              <label for="license" class="form-label fw-bold">License ID</label>
+              <input type="text" class="form-control" id="license" name="license" required />
+            </div>
+            <div class="mb-3">
+              <label for="idproof" class="form-label fw-bold">Upload ID Proof</label>
+              <input type="file" class="form-control" id="idproof" name="idproof" accept=".pdf,.jpg,.png" required />
+            </div>
+            <div class="mb-3">
+              <label for="photo" class="form-label fw-bold">Profile Photo</label>
+              <input type="file" class="form-control" id="photo" name="photo" accept=".jpg,.png" required />
+            </div>
+            <div class="mb-3">
+              <label for="timings" class="form-label fw-bold">Clinic Timings</label>
+              <input type="text" class="form-control" id="timings" name="timings" placeholder="e.g. Mon–Fri, 10am–5pm" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Doctor ID (Auto-generated)</label>
+              <input type="text" class="form-control" value="Will be auto-assigned" readonly />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label fw-bold">Create Password</label>
+              <input type="password" class="form-control" id="password" name="password" required />
+            </div>
+            <div class="mb-4">
+              <label for="confirm" class="form-label fw-bold">Verify Password</label>
+              <input type="password" class="form-control" id="confirm" name="confirm" required />
+            </div>
+            <button type="submit" class="btn btn-teal w-100">Register Doctor</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

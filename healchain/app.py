@@ -5,13 +5,27 @@ import os
 import csv
 import json
 import re
+import logging
 from datetime import datetime
 from functools import wraps
 from io import StringIO, BytesIO
 import zipfile
+from dotenv import load_dotenv
+
+load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(name)s: %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-app.secret_key = "healchain-dev"
+_secret_key = os.environ.get("SECRET_KEY")
+if not _secret_key:
+    logger.warning("SECRET_KEY environment variable not set; using insecure fallback. Set SECRET_KEY in production.")
+    _secret_key = "healchain-fallback-dev-key"
+app.secret_key = _secret_key
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -1173,6 +1187,17 @@ def logout():
     session.clear()
     flash("Logged out.")
     return redirect(url_for("home"))
+
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template("500.html"), 500
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
